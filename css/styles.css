@@ -2,7 +2,7 @@
    Public API Request
 ======================================== */
 
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+/*@import url('https://fonts.googleapis.com/css?family=Nunito');*/
 
 * {
 	box-sizing: border-box;
@@ -175,16 +175,10 @@ header h1 {
     margin: 5px;
 }
 
-.divider {
-    width: 19em;
-    margin: 1em auto;
-    border: 1px solid rgba(50, 50, 50, 0.7);
-}
-
 .modal hr {
     width: 75%;
     margin: 25px auto 30px;
-    border-color: rgba(200, 200, 200, 0.2);
+    border-color: black;
 }
 
 .modal-btn-container {

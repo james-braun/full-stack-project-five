@@ -27,7 +27,7 @@ function createHtML(data) {
         person += '<div class="modal-name modal-text cap">' + data.results[i].name.first + ' ' + data.results[i].name.last + '</div>';
         person += '<div class="email modal-text">' + data.results[i].email + '</div>';
         person += '<div clase="phone modal-text">' + data.results[i].phone + '</div>';
-        person += '<div class="divider"></div>';
+        person += '<hr>';
         person += '<div class="street modal-text cap">' + data.results[i].location.street + '</div>';
         person += '<div class="city modal-text cap">' + data.results[i].location.city + '</div>';
         person += '<div class="state modal-text cap">' + data.results[i].location.state + '</div>';
@@ -37,7 +37,7 @@ function createHtML(data) {
         person += '<img class="right-arrow" src="img/next.png" alt="right arrow">';
         person += '<img class="left-arrow" src="img/prev.png" alt="left arrow"></div></div> ';
     }
-    document.getElementById('gallery').innerHTML = person;
+    $('#gallery').html(person);
 }
  
 function popupHandler() {
@@ -90,24 +90,16 @@ function arrowClick(tgt_modal, direction, value, bound) {
 function search() {
 
     // create a input element.
-    const $searchElement = $('<input type="search" id="search-input" placeholder="Search" value="" name="user_search" />');
-    $('.search-container').append($searchElement);
-
-    // function tests if search is in data-title.
-    function includes(container, value) {
-        if (container.indexOf(value) >= 0) {
-            return true;
-        }
-        return false;
-    }
+    $('.search-container').append('<input type="search" id="search-input" placeholder="Search" value="" name="user_search" />');
 
     // input event keyup()
     $('#search-input').keyup(function () {
 
-        // cycle though all anchor elements
+        // cycle though all card elements
         $('.card').each(function () {
-            // if the for loop anchor element is not null.  compare the anchor elements data-title to the search elements value and show or hide pictures as necessary.
-            if (($(this).find('.name').html()) && (includes($(this).find('.name').html().toUpperCase(), $('#search-input').val().toUpperCase()) === true)) {
+
+            // if the for loop anchor element is not null.  compare the anchor elements html to the search elements value and show or hide cards as necessary.
+            if (($(this).find('.name').html()) && ($(this).find('.name').html().toUpperCase().indexOf($('#search-input').val().toUpperCase()) >= 0)) {
                 $(this).show();
             } else {
                 $(this).hide();
