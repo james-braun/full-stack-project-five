@@ -7,21 +7,26 @@ $.ajax({
     success: function (data) {
         createHtML(data);
         search();
-        popupHandler();
+        modalHandler();
     }
 });
 
+// this function creates all the html for the random users.
 function createHtML(data) {
-    var person = ''
+
+    // this varible holds all of the html to be added to the page.
+    var person = '';
+
+    // this for loop adds one random user to "person" per itteration
     for (let i = 0; i < data.results.length; ++i) {
-        person += '<div class="card card-' + i + '" modal-open="popup-' + i + '">';
+        person += '<div class="card card-' + i + '" modal-open="' + i + '">';
         person += '<img class="card-img" src="' + data.results[i].picture.thumbnail + '" alt="' + data.results[i].name.first + ' ' + data.results[i].name.last + '">';
         person += '<div class="card-info-container">';
         person += '<div class="name card-text cap">' + data.results[i].name.first + ' ' + data.results[i].name.last + '</div>';
         person += '<div class="card-text">' + data.results[i].email + '</div>';
         person += '<div class="card-text cap">' + data.results[i].location.city + '</div>';
         person += '</div></div>';
-        person += '<div class="modal-container card-' + i + '" modal="popup-' + i + '">';
+        person += '<div class="modal-container card-' + i + '" modal="' + i + '">';
         person += '<div class="modal">';
         person += '<img class="modal-img" src="' + data.results[i].picture.thumbnail + '" alt="' + data.results[i].name.first + ' ' + data.results[i].name.last + '">';
         person += '<div class="modal-name modal-text cap">' + data.results[i].name.first + ' ' + data.results[i].name.last + '</div>';
@@ -33,60 +38,92 @@ function createHtML(data) {
         person += '<div class="state modal-text cap">' + data.results[i].location.state + '</div>';
         person += '<div class="postcode modal-text">' + data.results[i].location.postcode + '</div>';
         person += '<div class="Birthday modal-text ">' + 'Birthday: ' + data.results[i].dob.date.substr(5, 2) + '/' + data.results[i].dob.date.substr(8, 2) + '/' + data.results[i].dob.date.substr(2, 2) + '</div>';
-        person += '<button class="modal-close-btn btn" modal-close="popup-' + i + '" href="#">Close</button>';
+        person += '<button class="modal-close-btn btn" modal-close="' + i + '" href="#">Close</button>';
         person += '<img class="right-arrow" src="img/next.png" alt="right arrow">';
         person += '<img class="left-arrow" src="img/prev.png" alt="left arrow"></div></div> ';
     }
+
+    // adds the completed html to the dom.
     $('#gallery').html(person);
 }
- 
-function popupHandler() {
+
+// this function handles all modal events.
+function modalHandler() {
+
+    // this eventHandler opens a modal.
     $('[modal-open]').on('click', function (e) {
+
+        // create and object for pass by reference
+        // in arrow click function.
         var tgt_modal = { class: 'placeholder' }
+
+        // open the modal.
         tgt_modal.class = $(this).attr('modal-open');
         $('[modal="' + tgt_modal.class + '"]').fadeIn(350);
-        arrowClick(tgt_modal, 'right', 1, 0);
-        arrowClick(tgt_modal, 'left', -1, 11);
+
+        // these two function calls handle right
+        // and left navigation of the modals.
+        arrowClick(tgt_modal, 'right', 1);
+        arrowClick(tgt_modal, 'left', -1);
+
         e.preventDefault();
     });
 
+    // this eventHandler closes a modal.
     $('[modal-close]').on('click', function (e) {
-        var tgt_modal_class = $(this).attr('modal-close');
-        $('[modal="' + tgt_modal_class + '"]').fadeOut(350);
+
+        // close the modal.
+        $('[modal="' + $(this).attr('modal-close') + '"]').fadeOut(350);
+
+        // these two function calls remove
+        // extranious eventHandlers.
         $('.right-arrow').off();
         $('.left-arrow').off();
+
         e.preventDefault();
     });
 }
 
-function arrowClick(tgt_modal, direction, value, bound) {
+// this function handles right and left navigation of the modals.
+function arrowClick(tgt_modal, direction, value) {
+
+    // setup a click handler for the "direction" given.
     $('.' + direction + '-arrow').on('click', function () {
+
+        // close the curent modal.
         $('[modal="' + tgt_modal.class + '"]').fadeOut(350);
-        var array = tgt_modal.class.split('-');
-        index = parseInt(array[1]) + value;
+
+        // holds the index of the next modal to open.
+        var index = parseInt(tgt_modal.class) + value;
+
+        // if at either end of the list go to the other end.
         if (index > 11) {
             index = 0;
         }
         if (index < 0) {
             index = 11;
         }
+
+        // while "index" is on a hidden card move to the next card.
         while ($('.card-' + index).css('display') === 'none') {
-            console.log('before: ',index, ' ', value);
             index += value;
+
+            // if at either end of the list go to the other end.
             if (index > 11) {
                 index = 0;
             }
             if (index < 0) {
                 index = 11;
             }
-
-            console.log('after: ', index);
         }
-        $('[modal="' + array[0] + '-' + index + '"]').fadeIn(350);
-            tgt_modal.class = array[0] + '-' + index;
+
+        // display card and update "tgt_modal.class"
+        $('[modal="' + index + '"]').fadeIn(350);
+        tgt_modal.class = index.toString();
     });
 }
 
+// function searches the random users and shows and hides them.
 function search() {
 
     // create a input element.
@@ -98,7 +135,7 @@ function search() {
         // cycle though all card elements
         $('.card').each(function () {
 
-            // if the for loop anchor element is not null.  compare the anchor elements html to the search elements value and show or hide cards as necessary.
+            // if the for loop anchor element is not null.  compare the card name elements html to the search elements value and show or hide cards as necessary.
             if (($(this).find('.name').html()) && ($(this).find('.name').html().toUpperCase().indexOf($('#search-input').val().toUpperCase()) >= 0)) {
                 $(this).show();
             } else {
