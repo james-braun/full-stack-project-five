@@ -46,6 +46,7 @@ header h1 {
 }
 
 .search-input:active, .search-input:hover, .search-input:focus {
+    background-color: #ae9ecd;
     border: 1px solid rgba(50, 50, 50, 0.9);
 }
 
