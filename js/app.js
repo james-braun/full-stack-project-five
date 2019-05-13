@@ -5,7 +5,6 @@ $.ajax({
     url: 'https://randomuser.me/api/?results=12&nat=us',
     dataType: 'json',
     success: function (data) {
-        console.log(data);
         createHtML(data);
         search();
         modalHandler();
@@ -25,7 +24,7 @@ function createHtML(data) {
         person += '<img class="card-img" src="' + data.results[i].picture.medium + '" alt="' + data.results[i].name.first + ' ' + data.results[i].name.last + '">';
         person += '</div>';
         person += '<div class="card-info-container">';
-        person += '<h3 class="name card-text cap">' + data.results[i].name.first + ' ' + data.results[i].name.last + '</h3>';
+        person += '<h3 class="card-name card-text cap">' + data.results[i].name.first + ' ' + data.results[i].name.last + '</h3>';
         person += '<p class="card-text">' + data.results[i].email + '</p>';
         person += '<p class="card-text cap">' + data.results[i].location.city + '</p>';
         person += '</div></div>';
@@ -138,7 +137,7 @@ function search() {
         $('.card').each(function () {
 
             // if the for loop anchor element is not null.  compare the card name elements html to the search elements value and show or hide cards as necessary.
-            if (($(this).find('.name').html()) && ($(this).find('.name').html().toUpperCase().indexOf($('#search-input').val().toUpperCase()) >= 0)) {
+            if (($(this).find('.card-name').html()) && ($(this).find('.card-name').html().toUpperCase().indexOf($('#search-input').val().toUpperCase()) >= 0)) {
                 $(this).show();
             } else {
                 $(this).hide();
