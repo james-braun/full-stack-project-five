@@ -5,6 +5,7 @@ $.ajax({
     url: 'https://randomuser.me/api/?results=12&nat=us',
     dataType: 'json',
     success: function (data) {
+        console.log(data);
         createHtML(data);
         search();
         modalHandler();
@@ -20,27 +21,28 @@ function createHtML(data) {
     // this for loop adds one random user to "person" per itteration
     for (let i = 0; i < data.results.length; ++i) {
         person += '<div class="card card-' + i + '" modal-open="' + i + '">';
-        person += '<img class="card-img" src="' + data.results[i].picture.thumbnail + '" alt="' + data.results[i].name.first + ' ' + data.results[i].name.last + '">';
+        person += '<div class="card-img-container">';
+        person += '<img class="card-img" src="' + data.results[i].picture.medium + '" alt="' + data.results[i].name.first + ' ' + data.results[i].name.last + '">';
+        person += '</div>';
         person += '<div class="card-info-container">';
-        person += '<div class="name card-text cap">' + data.results[i].name.first + ' ' + data.results[i].name.last + '</div>';
-        person += '<div class="card-text">' + data.results[i].email + '</div>';
-        person += '<div class="card-text cap">' + data.results[i].location.city + '</div>';
+        person += '<h3 class="name card-text cap">' + data.results[i].name.first + ' ' + data.results[i].name.last + '</h3>';
+        person += '<p class="card-text">' + data.results[i].email + '</p>';
+        person += '<p class="card-text cap">' + data.results[i].location.city + '</p>';
         person += '</div></div>';
         person += '<div class="modal-container card-' + i + '" modal="' + i + '">';
         person += '<div class="modal">';
-        person += '<img class="modal-img" src="' + data.results[i].picture.thumbnail + '" alt="' + data.results[i].name.first + ' ' + data.results[i].name.last + '">';
-        person += '<div class="modal-name modal-text cap">' + data.results[i].name.first + ' ' + data.results[i].name.last + '</div>';
-        person += '<div class="email modal-text">' + data.results[i].email + '</div>';
-        person += '<div clase="phone modal-text">' + data.results[i].phone + '</div>';
+        person += '<button type="button" id="modal-close-btn" class="modal-close-btn" modal-close="' + i + '" href="#">Close</button>';
+        person += '<div class="modal-info-container">'
+        person += '<img class="modal-img" src="' + data.results[i].picture.large + '" alt="' + data.results[i].name.first + ' ' + data.results[i].name.last + '">';
+        person += '<h3 id="name" class="modal-text cap">' + data.results[i].name.first + ' ' + data.results[i].name.last + '</h3>';
+        person += '<p class="modal-text">' + data.results[i].email + '</p>';
+        person += '<p clase="modal-text">' + data.results[i].phone + '</p>';
         person += '<hr>';
-        person += '<div class="street modal-text cap">' + data.results[i].location.street + '</div>';
-        person += '<div class="city modal-text cap">' + data.results[i].location.city + '</div>';
-        person += '<div class="state modal-text cap">' + data.results[i].location.state + '</div>';
-        person += '<div class="postcode modal-text">' + data.results[i].location.postcode + '</div>';
-        person += '<div class="Birthday modal-text ">' + 'Birthday: ' + data.results[i].dob.date.substr(5, 2) + '/' + data.results[i].dob.date.substr(8, 2) + '/' + data.results[i].dob.date.substr(2, 2) + '</div>';
-        person += '<button class="modal-close-btn btn" modal-close="' + i + '" href="#">Close</button>';
+        person += '<p class="modal-text cap">' + data.results[i].location.street + '.</p>';
+        person += '<p class="modal-text cap">' + data.results[i].location.city + ', ' + data.results[i].location.state + ' ' + data.results[i].location.postcode + '</p>';
+        person += '<p class="Birthday modal-text ">' + 'Birthday: ' + data.results[i].dob.date.substr(5, 2) + '/' + data.results[i].dob.date.substr(8, 2) + '/' + data.results[i].dob.date.substr(2, 2) + '</p>';
         person += '<img class="right-arrow" src="img/next.png" alt="right arrow">';
-        person += '<img class="left-arrow" src="img/prev.png" alt="left arrow"></div></div> ';
+        person += '<img class="left-arrow" src="img/prev.png" alt="left arrow"></div></div></div>';
     }
 
     // adds the completed html to the dom.
@@ -127,7 +129,7 @@ function arrowClick(tgt_modal, direction, value) {
 function search() {
 
     // create a input element.
-    $('.search-container').append('<input type="search" id="search-input" placeholder="Search" value="" name="user_search" />');
+    $('.search-container').append('<form action="#" method="get"><input type="search" id="search-input" class="search-input" placeholder="Search..." name="user_search" /><input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit"></form >');
 
     // input event keyup()
     $('#search-input').keyup(function () {
