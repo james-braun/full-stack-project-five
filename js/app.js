@@ -92,7 +92,7 @@ function arrowClick(tgt_modal, direction, value) {
     $('.' + direction + '-arrow').on('click', function () {
 
         // close the curent modal.
-        $('[modal="' + tgt_modal.class + '"]').fadeOut(350);
+        $('[modal="' + tgt_modal.class + '"]').hide();
 
         // holds the index of the next modal to open.
         var index = parseInt(tgt_modal.class) + value;
@@ -119,7 +119,7 @@ function arrowClick(tgt_modal, direction, value) {
         }
 
         // display card and update "tgt_modal.class"
-        $('[modal="' + index + '"]').fadeIn(350);
+        $('[modal="' + index + '"]').show();
         tgt_modal.class = index.toString();
     });
 }
