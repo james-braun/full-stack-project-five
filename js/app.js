@@ -37,7 +37,7 @@ function createHtML(data) {
         person += '<p class="modal-text">' + data.results[i].email + '</p>';
         person += '<p clase="modal-text">' + data.results[i].phone + '</p>';
         person += '<hr>';
-        person += '<p class="modal-text cap">' + data.results[i].location.street + '.</p>';
+        //person += '<p class="modal-text">' + data.results[i].location.street + '.</p>';
         person += '<p class="modal-text cap">' + data.results[i].location.city + ', ' + data.results[i].location.state + ' ' + data.results[i].location.postcode + '</p>';
         person += '<p class="Birthday modal-text ">' + 'Birthday: ' + data.results[i].dob.date.substr(5, 2) + '/' + data.results[i].dob.date.substr(8, 2) + '/' + data.results[i].dob.date.substr(2, 2) + '</p>';
         person += '<img class="right-arrow" src="img/next.png" alt="right arrow">';
